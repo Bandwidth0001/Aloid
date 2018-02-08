@@ -4,9 +4,7 @@ const weather = require('weather-js');
 const hastebin = require('hastebin-gen');
 const ads = require('./ads.js'); 
 const swears = require('./swears.js'); 
-
-var token = "no";
-
+var token = "no token, just stop looking at token ffs lol";
 var guilds = {};
 
 bot.on("ready", function() {
@@ -73,6 +71,14 @@ bot.on("message", function(message) {
   }
 }
 
+
+function clean(text) {
+  if (typeof(text) === `string`)
+    return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, `@` + String.fromCharCode(8203));
+  else
+      return text;
+}
+
 const as = guilds[message.guild.id].as;
 
 if (as === 1) { //detects if antiswear is on or not
@@ -93,6 +99,40 @@ if (as === 1) { //detects if antiswear is on or not
   }
 }
 
+var animepics = [
+  'https://cdn.discordapp.com/attachments/409118997305622529/409792198671073280/Capture.PNG',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409793133006815252/9e2dece20151845674870f36e0e5350402e660c3_hq.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409793166292549652/79e80478f9996d39a081fc118e4ebcc0.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409793206398484491/images.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409793252691279872/images.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409793273318735873/images.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409793299226820609/812811c91bb75f942a8a1b20e7cc73fb.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409793317627363329/images.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409793359402500106/3760262.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409793434451443712/aa26f348c73960481be1b1efff191522678d912a_hq.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409793556866400257/images.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409793571085090816/images.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409793595730690048/images.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409793649040293898/images.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409793664236388352/images.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409793747694518272/images.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409793937625055232/images.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409794051760717844/zjWm8ky5.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409794057011986432/images.png',
+  'https://cdn.discordapp.com/attachments/409118997305622529/409794136208572426/images.png',
+];
+
+var h = [
+  'https://simg3.gelbooru.com/images/95/68/9568145f22350f7acfc8efb54d6f694e.jpeg','https://files.yande.re/image/ce8e14c0b8919994e8c57152e3c7b8f6/yande.re%20432859%20censored%20fate_grand_order%20feet%20mash_kyrielight%20naked%20nipples%20pussy%20pussy_juice%20remana.jpg',
+  'https://simg3.gelbooru.com/images/ef/e8/efe83f21c2d222b68559bd2816aef4e8.png',
+  'https://danbooru.donmai.us/data/__megumin_kono_subarashii_sekai_ni_shukufuku_wo_drawn_by_apoidea__b31ab36f6e4b62102e81a4f92cbeb9b0.jpg',
+  'https://konachan.com/image/54eaeb126270dffe405042bffa46a3e9/Konachan.com%20-%20259982%20ass%20ass_grab%20bed%20brown_hair%20green_eyes%20gyouza_teishoku%20naked_shirt%20original%20sex%20short_hair.png',
+  'https://files.yande.re/image/1a4d3fafcb34a269d7d203370168c507/yande.re%20432823%20anus%20ass%20ass_grab%20monster%2Bmusume%20monster_girl%20nipples%20pantsu%20pointy_ears%20pussy%20sayori%20thong%20topless.jpg',
+  'https://simg3.gelbooru.com/images/4c/7b/4c7b8a289d8b0a74073bc2debe27ed38.gif',
+  'https://danbooru.donmai.us/data/__hakurei_reimu_and_sananana_cookie_touhou_and_touhou_drawn_by_oozon_ozon__83d50be518f74ca31d5a38bca8c56d0a.png',
+  'https://konachan.com/image/0b7c462faad96aadad4f9b09f2b5c91f/Konachan.com%20-%20259325%20anus%20ass%20ass_grab%20creampie%20cum%20game_cg%20green_eyes%20green_hair%20hunie_pop%20long_hair%20ninamo%20theiatena_venus%20uncensored.jpg',
+  'https://files.yande.re/image/a2d9643fb870bd5c3684f48681b6b0e0/yande.re%20433012%20boku_wa_tomodachi_ga_sukunai%20breasts%20cait%20kashiwazaki_sena%20kimono%20nipples%20no_bra%20nopan%20open_shirt%20pussy%20uncensored.png'];
+
 var parseTime = function(milliseconds) {
   var seconds = Math.floor(milliseconds/1000); milliseconds %= 1000;
   var minutes = Math.floor(seconds/60); seconds %= 60;
@@ -109,6 +149,8 @@ var parseTime = function(milliseconds) {
 
   const prefix = guilds[message.guild.id].prefix;
 
+  const hexcols = [0xFFB6C1, 0x4C84C0, 0xAD1A2C, 0x20b046, 0xf2e807, 0xf207d1, 0xee8419, 0x8a2be2];
+
   if (message.author.bot) return;
 
   if (message.author.equals(bot.user)) return;
@@ -119,6 +161,50 @@ var parseTime = function(milliseconds) {
 
   var args = message.content.substring(prefix.length).split(" ");
   switch (args[0].toLowerCase()) {
+    case "eval":
+    if(message.author.id == "395954014715510784") {
+      try {
+        const code = args.join(` `);
+        let evaled = eval(code);
+  
+        if (typeof evaled !== `string`)
+          evaled = require(`util`).inspect(evaled);
+
+        const embed = new Discord.RichEmbed()
+        .setTitle(`Evaluating...`)
+        .setColor(hexcols[~~(Math.random() * hexcols.length)])
+        .setDescription(`Input:\n${code}\n \nOutput:\n${clean(evaled)}`);
+        message.channel.send({embed});
+      } catch (err) {
+        message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+          }
+    } else {
+      message.reply("Really? Eval? Heh, nice try tho.");
+    }
+    break;
+    case "animebomb":
+    message.channel.sendMessage(animepics[Math.floor(Math.random() * animepics.length )] + "\n" + animepics[Math.floor(Math.random() * animepics.length )] + "\n" + animepics[Math.floor(Math.random() * animepics.length )]);
+    break;
+    case "hentaibomb":
+    if(!message.channel.nsfw){
+      message.reply("THIS IS A NSFW COMMAND, PLEASE USE THIS COMMAND IN A NSFW CHANNEL! :x:")
+      }else{
+        message.channel.sendMessage(h[Math.floor(Math.random() * h.length )] + "\n" + h[Math.floor(Math.random() * h.length )] + "\n" + h[Math.floor(Math.random() * h.length )]);
+      }
+    break;
+    case "marry":
+    let mar = message.mentions.users.first();
+    if (!mar) {
+      message.reply("Please mention a user to marry.");
+    } else {
+    var mare = new Discord.RichEmbed()
+    .setTitle(`New people has been married! :heart_eyes: :heart_eyes: `)
+    .setDescription(`:heart: <@${message.author.id}> is now married with <@${mar.id}>! :wink:`)
+    .setImage(`https://i.ytimg.com/vi/6ytPCSS8_7s/maxresdefault.jpg`)
+    .setColor(0x721487)
+    message.channel.sendEmbed(mare);
+    }
+    break;
 case "ping":
 message.reply(`Pong! ${Math.round(bot.ping)}ms`);
 break;
@@ -142,13 +228,17 @@ break;
 case "help":
 var helpembed = new Discord.RichEmbed()
 .setTitle(`Aloid's Commands List`)
-.setDescription(`**ADMINISTATION**\n\n${prefix}config-suggestion - Sets a channel for ${prefix}suggest\n${prefix}addmod @user - Adds a user to Aloid mod list.\n${prefix}delmod @user - Removes a user to Aloid mod list.\n\n**MODERATION - PLEASE USE ${prefix}addmod @user BEFORE USING ANY OF COMMANDS.**\n\n${prefix}prefix [prefix] - Sets new prefix for the bot!\n${prefix}purge [AMOUT OF MESSAGES] - Clears amout of messages you wrote.\n${prefix}ban @user - Bans a user\n${prefix}kick @user - Kicks a user.\n${prefix}mute @user - Mutes a user.\n${prefix}unmute @user - Unmute a user.\n${prefix}warn @user - Warns a user.\n${prefix}unwarn @user - Unwarns a user.\n\n**OPTIONS**\n\n${prefix}antiinvite on/off - Blocks discord links.\n${prefix}antiswear on/off - Turn on antiswear or turn it off.\n\n**FUN COMMANDS**\n\n${prefix}meme - DANK MEME\n${prefix}suggest [SUGGESTION] - Suggest something to a server - **PLEASE USE ${prefix}configsuggestion BEFORE DOING THIS COMMAND!**\n${prefix}emojis - Shows custom emojis in the server.\n${prefix}raw [TEXT] - Sends your text to hastebin!\n${prefix}searchanime - Search your favourite anime!\n${prefix}anime - Anime list\n${prefix}help - Shows this help message\n${prefix}ping - Says pong!\n${prefix}serverinfo - Shows information about your server!\n${prefix}8ball [QUESTION] - Ask me a question and i will answer it!\n${prefix}avatar | ${prefix}avatar @USER - Shows your avatar or users avatar!\n${prefix}mc [MINECAFT USERNAME] - Shows your minecraft account!\n${prefix}servers - Shows in which servers i am!\n${prefix}say - Says what you say! \n\n**MUSIC COMMANDS**\n\n(play - Plays music\n(stop - Stops music [DJ ONLY]\n(volume [0 - 150] - Sets volume [DJ ONLY]\n(nowplaying - See whats playing!\n(queue - Shows queue!\n(remove [position/all] - Removes a song or removes all songs.\n(skip - Vote to skip the song.\n(forceskip - Forceskip song! [DJ ONLY]\n(pause - Pause music [DJ ONLY]\n(skipto [POSITION] - skips to a song!\n\nPrefix is: **${prefix}** !\n\n[Invite Me!](http://urlr.pl/aloid)\n[Support Discord Server](https://discord.gg/fVuRsby)\n[Special thanks to telk](https://discord.gg/3FKGeFw) `)
+.setDescription(`**[PRESS ME FOR COMMAND LIST](https://bts.net.pl/aloid/cmds)**\n\nPrefix is: **${prefix}** !\n\n[Invite Me!](http://bts.net.pl/aloid)\n[Support Discord Server](https://discord.gg/fVuRsby)\n[Special thanks to telk](https://discord.gg/3FKGeFw) `)
 .setAuthor(`Requested by ${message.author.username}`, message.author.displayAvatarURL)
 .setFooter(`By 123silly#0001 | Aloid 1.6v Copyright`)
-.setThumbnail(`https://cdn.discordapp.com/avatars/403514826241998859/b72c880cbe06de93ff6d27bd638cec93.png?width=999&height=999`)
+.setThumbnail(`https://bts.net.pl/cdn/aloid.png`)
 .setColor(0x721487)
 message.react("406932185371901964");
 message.channel.sendEmbed(helpembed);
+break;
+case "password":
+var a = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s","t","u", "v", "w", "x","y","z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S","T","U", "V", "W", "X","Y","Z"];
+message.reply(a[Math.floor(Math.random() * a.length )] + a[Math.floor(Math.random() * a.length )] + a[Math.floor(Math.random() * a.length )] + a[Math.floor(Math.random() * a.length )] + a[Math.floor(Math.random() * a.length )] + a[Math.floor(Math.random() * a.length )] + a[Math.floor(Math.random() * a.length )] + a[Math.floor(Math.random() * a.length )] + a[Math.floor(Math.random() * a.length )] + a[Math.floor(Math.random() * a.length )] + a[Math.floor(Math.random() * a.length )] + a[Math.floor(Math.random() * a.length )]);
 break;
 case "servers":
 var servers = new Discord.RichEmbed()
@@ -161,7 +251,7 @@ break;
 case "suggest":
 if (args[1]) {
 var time = new Date();
-var sugargs = message.content.substring(8).split(" ");
+var sugargs = message.content.substring(prefix.length+8).split(" ");
 const sugmsg = sugargs.join(" ");
 var sembed = new Discord.RichEmbed()
 .setTitle(`**Suggestion**`)
@@ -170,8 +260,8 @@ var sembed = new Discord.RichEmbed()
 .setFooter(`Sent at ${time}`)
 .setColor(0xe8d830)
 message.guild.channels.find("name", "suggestion").sendMessage(sembed).then(function (message) {
-  message.react("👍")
-  message.react("👎")
+  message.react("đź‘Ť")
+  message.react("đź‘Ž")
 }).catch(function() {
   //Something
  });
@@ -188,7 +278,7 @@ message.reply(`Channel has been created, please disable writing messages for mem
 break;
 case "say":
 if(message.author.id == "395954014715510784") {
-    var sayargs = message.content.substring(4).split(" ");
+    var sayargs = message.content.substring(prefix.length+4).split(" ");
                     const saymsg = sayargs.join(" ");
                     message.delete().catch(O_o=>{});
 		    message.channel.sendMessage(saymsg);
@@ -196,6 +286,19 @@ if(message.author.id == "395954014715510784") {
 
         message.channel.send(":x: **Bot Owner Only**");
     }
+break;
+case "dbl":
+if(message.author.id == "395954014715510784") {
+  const snekfetch = require('snekfetch');
+  const dblToken = 'no dbl token for you hehe';
+snekfetch.post(`https://discordbots.org/api/bots/${bot.user.id}/stats`)
+      .set("Authorization", dblToken)
+      .send({ server_count: bot.guilds.size })
+      .then(() => console.log("Sent guild count to discordbots.org!"));
+  } else {
+
+      message.channel.send(":x: **Bot Owner Only**");
+  }
 break;
 case "mc":
 if (args[1]) {
@@ -246,7 +349,7 @@ break;
 case "8ball":
 if (args[1]) {
 var balls = ["Nope", "No", "Nah", "Nuu!", "Never", "I think not", "Maybe no", "Yes", "Yas", "Always", "I think yes", "Maybe yes", "Maybe"];
-var qargs = message.content.substring(6).split(" ");
+var qargs = message.content.substring(prefix.length+6).split(" ");
 const qumsg = qargs.join(" ");
 var balle = new Discord.RichEmbed()
 .setTitle(`Aloid's 8ball`)
@@ -355,7 +458,7 @@ case "weather":
 		break;
         case "nick":
 		if(message.guild.member(message.author).hasPermission(`ADMINISTRATOR`)) {
-		 var nickargs = message.content.substring(5).split(" ");
+		 var nickargs = message.content.substring(prefix.length+5).split(" ");
                     const nickmsg = nickargs.join(" ");
 		message.guild.members.get(bot.user.id).setNickname(nickmsg);
 		message.reply(":white_check_mark: Nickname has been changed to **" + nickmsg + "** !");
@@ -369,14 +472,15 @@ case "weather":
     const laungage = "Discord.JS/Node.JS";
     var infoe = new Discord.RichEmbed()
     .setTitle(`Info about Aloid`)
-    .setDescription(`Hello i am Aloid,\nA bot which will make your server better(and funnier)\nI am owned by **${owner}** and i was coded in **${laungage}**!\nHere is some information about me:\n\nName: Aloid\nCreator: ${owner}\nMemory used: ${Math.round(used * 100) / 100}MB\nUptime: ${parseTime(bot.uptime)}\nServer Count: ${bot.users.size}\nUsers: ${bot.users.size}\nChannels: ${bot.channels.size}`)
+    .setDescription(`Hello i am Aloid,\nA bot which will make your server better(and funnier)\nI am owned by **${owner}** and i was coded in **${laungage}**!\nHere is some information about me:\n\nName: Aloid\nCreator: ${owner}\nMemory used: ${Math.round(used * 100) / 100}MB\nUptime: ${parseTime(bot.uptime)}\nServer Count: ${bot.guilds.size}\nUsers: ${bot.users.size}\nChannels: ${bot.channels.size}`)
     .setFooter(`ALOID COPYRIGHT 2018`)
     .setAuthor(`Requested by ${message.author.username}`, message.author.displayAvatarURL)
+    .setThumbnail(`https://bts.net.pl/cdn/aloid.png`)
     .setColor(0x721487)
     message.channel.sendEmbed(infoe);
     break;
 		case "raw":
-		var rawargs = message.content.substring(5).split(" ");
+		var rawargs = message.content.substring(prefix.length+4).split(" ");
                     const rawmsg = rawargs.join(" ");
 					if (args[1]) {
         hastebin(rawmsg).then(r => {
@@ -400,9 +504,12 @@ case "weather":
     .setAuthor(`Requested by ${message.author.username}`, message.author.displayAvatarURL)
       .setTitle(`Invite me to your server using this link!`)
       .setColor(0x721487)
-      .setDescription(`[Click me!](https://discordapp.com/oauth2/authorize?client_id=403514826241998859&scope=bot&permissions=8)`)
+      .setDescription(`[Click me!](https://discordapp.com/oauth2/authorize?client_id=410825339757920257&permissions=8&redirect_uri=https%3A%2F%2Fbts.net.pl%2Faloid%2Fthanks&response_type=code&scope=bot%20identify)`)
     message.channel.sendMessage(invite);
     break;
+	case "asciiemoji":
+	message.reply("Here is your ascii emoji: \\" + args[1]);
+	break;
     // START OF MOD CMDS
   }
 });
@@ -415,7 +522,7 @@ bot.on("message", function(message) {
   var autorespond = message.content;
   
   switch (autorespond.toLowerCase()) {
-case "<@403514826241998859>":
+case "<@410825339757920257>":
 message.reply(`My prefix is ${prefix}!`);
 break;
 case "@Aloid":
