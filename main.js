@@ -4,7 +4,7 @@ const weather = require('weather-js');
 const hastebin = require('hastebin-gen');
 const ads = require('./ads.js'); 
 const swears = require('./swears.js'); 
-var token = "no token, just stop looking at token ffs lol";
+var token = "NDEwODI1MzM5NzU3OTIwMjU3.DWHPZQ.drqLAgBp8qfdHTtiPQ7bolXLMOs";
 var guilds = {};
 
 bot.on("ready", function() {
@@ -290,7 +290,7 @@ break;
 case "dbl":
 if(message.author.id == "395954014715510784") {
   const snekfetch = require('snekfetch');
-  const dblToken = 'no dbl token for you hehe';
+  const dblToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQxMDgyNTMzOTc1NzkyMDI1NyIsImJvdCI6dHJ1ZSwiaWF0IjoxNTE4MDg4MjAwfQ.kIzBQLEJc6LwCZBsG2_3X1BlEOtdIuVIO9xdZjeJKgY';
 snekfetch.post(`https://discordbots.org/api/bots/${bot.user.id}/stats`)
       .set("Authorization", dblToken)
       .send({ server_count: bot.guilds.size })
